@@ -172,7 +172,7 @@ git clone https://github.com/gabrieltinoco/Algoritmo-MaxMin-Select-em-Python.git
 ```
 2. Navegue até o diretório do projeto:
 ```Bash
-cd Algoritmo-De-Karatsuba-Em-Python
+cd Algoritmo-MaxMin-Select-em-Python
 ```
 3. Execute o script Python:
 ```Bash
