@@ -187,7 +187,73 @@ python main.py
 
 A **complexidade assintótica** é uma maneira de expressar o comportamento de um algoritmo quando o tamanho da entrada tende ao infinito. Ela descreve o tempo ou espaço de execução de um algoritmo em termos do tamanho da entrada, ignorando fatores como o hardware ou o tempo de execução real. A complexidade assintótica ajuda a comparar a eficiência de diferentes algoritmos de forma mais objetiva, independentemente das condições do sistema.
 
-#### Complexidade Assintótica Temporal do Algoritmo:
+### **Complexidade Assintótica do Algoritmo pelo método de contagem de operações:**
 
+Para determinar a complexidade, analisamos a operação dominante do algoritmo, que é a **comparação** entre elementos. Seja $C(n)$ o número de comparações realizadas para uma lista de $n$ elementos.
+
+#### Etapas do Algoritmo e suas Comparações:
+1.  **Casos Base:**
+    * Se a lista tem 0 ou 1 elemento (`tamanho_lista <= 1`), o algoritmo não realiza nenhuma comparação. Portanto, $C(1) = 0$.
+    * Se a lista tem 2 elementos (`tamanho_lista == 2`), o código executa `if lista[0] < lista[1]:`, realizando exatamente **1 comparação**. Portanto, $C(2) = 1$.
+
+2.  **Divisão e Conquista (n > 2):**
+    * **Divisão:** A lista é dividida em duas metades, `lista[:metade]` e `lista[metade:]`. Esta operação não envolve comparações entre elementos da lista.
+    * **Chamadas Recursivas:** O algoritmo é chamado recursivamente para cada metade. O custo em comparações para resolver esses subproblemas é de $2 \cdot C(n/2)$.
+    * **Combinação:** Após o retorno das chamadas recursivas, duas comparações são feitas para encontrar o resultado final:
+        * `min(minimo_esquerda, minimo_direita)`: 1 comparação.
+        * `max(maximo_esquerda, maximo_direita)`: 1 comparação.
+        O custo da combinação é de **2 comparações**.
+
+#### Cálculo do Total de Comparações:
+
+A análise nos leva à seguinte relação de recorrência para o número de comparações:
+
+$$C(n) = 2C(n/2) + 2$$
+
+Para resolver essa recorrência (assumindo $n$ como potência de 2 para simplificar e usando o caso base $C(2)=1$):
+
+$$C(n) = 2(2C(n/4) + 2) + 2 = 4C(n/4) + 4 + 2$$ 
+$$C(n) = 4(2C(n/8) + 2) + 6 = 8C(n/8) + 8 + 6$$
+
+Expandindo até o caso base $C(2)=1$, a fórmula se resolve para:
+
+$$C(n) = \frac{n}{2} \cdot C(2) + 2(\frac{n}{2} - 1) = \frac{n}{2} + n - 2 = \frac{3n}{2} - 2$$
+
+O número total de comparações é $\frac{3n}{2} - 2$. Como o número de operações cresce linearmente com o tamanho da entrada $n$, a complexidade temporal do algoritmo é **$O(n)$**.
+
+### **Análise da complexidade assintótica pela aplicação do Teorema Mestre**
+
+A recorrência que descreve o tempo de execução do algoritmo `max_min_select` é:
+
+$$T(n) = 2T(n/2) + O(1)$$
+
+Onde $2T(n/2)$ representa as duas chamadas recursivas em metades da lista e $O(1)$ representa o trabalho constante de divisão e combinação (as duas comparações).
+
+A seguir, respondemos às perguntas com base na fórmula geral do Teorema Mestre: $T(n) = a \cdot T(n/b) + f(n)$.
+
+1.  **Identifique os valores de $a$, $b$ e $f(n)$ na fórmula:**
+    * **$a = 2$**: É o número de subproblemas gerados a cada chamada recursiva.
+    * **$b = 2$**: É o fator pelo qual o tamanho da entrada é reduzido em cada subproblema (a lista é dividida por 2).
+    * **$f(n) = O(1)$**: É o custo do trabalho realizado fora das chamadas recursivas (divisão e combinação), que é constante e não depende de $n$.
+
+2.  **Calcule $\log_b a$ para determinar o valor de $p$:**
+   
+    * $p = \log_b a = \log_2 2 = 1$
+
+4.  **Determine em qual dos três casos do Teorema Mestre esta recorrência se enquadra:**
+   
+    * Precisamos comparar $f(n)$ com $n^p$, que é $n^1$.
+    * Temos $f(n) = O(1)$.
+    * A condição do **Caso 1** do Teorema Mestre é $f(n) = O(n^{p - \epsilon})$ para algum $\epsilon > 0$.
+    * Se escolhermos $\epsilon = 1$, temos $n^{p-\epsilon} = n^{1-1} = n^0 = 1$. A condição se torna $f(n) = O(1)$, o que é verdade.
+    * Portanto, a recorrência se enquadra no **Caso 1** do Teorema Mestre.
+
+6.  **Encontre a solução assintótica $T(n)$ da fórmula:**
+   
+    * Pelo Caso 1 do Teorema Mestre, a solução da recorrência é $T(n) = \Theta(n^p)$.
+    * Substituindo $p=1$, a solução assintótica é:
+        $$T(n) = \Theta(n^1) = \Theta(n)$$
+
+Ambos os métodos confirmam que o algoritmo possui uma complexidade de tempo linear, sendo altamente eficiente para encontrar o mínimo e o máximo de uma sequência.
 
 
