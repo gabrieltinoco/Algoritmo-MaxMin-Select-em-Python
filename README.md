@@ -25,7 +25,7 @@ def maxminselect(num_x, num_y):
 
 1. Clone o repositório:
 ```Bash
-git clone https://github.com/gabrieltinoco/Algoritmo-De-Karatsuba-Em-Python.git
+git clone https://github.com/gabrieltinoco/Algoritmo-MaxMin-Select-em-Python.git
 ```
 2. Navegue até o diretório do projeto:
 ```Bash
